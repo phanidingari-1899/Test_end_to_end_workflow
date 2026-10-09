@@ -1,0 +1,19 @@
+wf_1213_pe_preprocess_dag:
+  default_args:
+    owner: data-engineering
+    retries: 1
+    retry_delay_sec: 300
+  description: Migrated Informatica workflow wf_1213_pe_preprocess
+  schedule_interval: null
+  catchup: false
+  default_view: graph
+  tasks:
+    m_1213_pe_preprocess_ppub_crm_fdbk_all_task:
+      operator: airflow.providers.amazon.aws.operators.glue.GlueJobOperator
+      task_id: m_1213_pe_preprocess_ppub_crm_fdbk_all_task
+      job_name: wf_1213_pe_preprocess_m_1213_pe_preprocess_ppub_crm_fdbk_all
+      script_location: s3://my-glue-bucket/glue-scripts/m_1213_pe_preprocess_ppub_crm_fdbk_all.py
+      region_name: us-east-1
+      iam_role_name: arn:aws:iam::ACCOUNT_ID:role/GlueJobRole
+      create_job_kwargs:
+        GlueVersion: '4.0'
